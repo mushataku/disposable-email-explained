@@ -344,6 +344,32 @@
     </figure>
   </section>
 
+  <!-- 5b -->
+  <section>
+    <h2>実際に、1,999個で試した</h2>
+    <p>使い捨てメールで<strong>1,999個のアドレス</strong>を作って照合してみた。ドメインは<strong>66種類</strong>に散らばっていた。</p>
+    <figure>
+      <svg viewBox="0 0 660 212" role="img" aria-label="1999件のうちブロックリスト照合だけでは1769件88.5パーセントしか止まらないが、配達先のMXも見ると1999件100パーセントが止まる">
+        <text x="30" y="30" class="cap">ブロックリストと照合するだけ</text>
+        <rect x="30" y="42" width="500" height="34" rx="3" fill="var(--neutral-bg)"/>
+        <rect x="30" y="42" width="442" height="34" rx="3" fill="var(--stamp)"/>
+        <text x="546" y="60" class="mono" style="font-size:15px;font-weight:700;fill:var(--stamp)">88.5%</text>
+        <text x="546" y="76" class="lbl">1,769件</text>
+
+        <text x="30" y="112" class="cap">＋ 配達先（MX）も見る</text>
+        <rect x="30" y="124" width="500" height="34" rx="3" fill="var(--neutral-bg)"/>
+        <rect x="30" y="124" width="500" height="34" rx="3" fill="var(--safe)"/>
+        <text x="546" y="142" class="mono" style="font-size:15px;font-weight:700;fill:var(--safe)">100%</text>
+        <text x="546" y="158" class="lbl">1,999件</text>
+
+        <line x1="30" y1="182" x2="630" y2="182" stroke="var(--rule)" stroke-width="1"/>
+        <text x="330" y="204" class="lbl" text-anchor="middle">1,999件のうち、止められた数</text>
+      </svg>
+      <figcaption>差の 11.5%（230件）が「リストの更新が追いついていない隙間」。それが配達先の確認1つで埋まる。</figcaption>
+    </figure>
+    <p class="note">リストに<strong>載っていなかった8ドメイン</strong>の配達先を調べたら、<strong>載っていた58ドメインとまったく同じサーバ群</strong>だった。ドメインを66個に散らしても、荷物の届け先は1組しかない。</p>
+  </section>
+
   <!-- 6 -->
   <section>
     <h2>見分けかたは、作る側にも効く</h2>
@@ -375,7 +401,7 @@
   </section>
 
   <footer>
-    リストの出典＝<span class="mono">disposable-email-domains</span>（パブリックドメイン）。行数・バイト数・4341行目は 2026年9月8日（火）に実際にダウンロードして確認した実測値。<br>
+    リストの出典＝<span class="mono">disposable-email-domains</span>（パブリックドメイン）。行数・バイト数・4341行目、および1,999件の照合結果とその配達先は、2026年9月8日（火）に実際に確認した実測値。<br>
     このリストは広く使われている定番の1つだが、どのサイトがどのリストを使うかは公開されていない。<strong>「載っている」＝「必ず弾かれる」ではない</strong>。
   </footer>
 
