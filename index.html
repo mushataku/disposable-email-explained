@@ -1,0 +1,382 @@
+<title>捨てメールの見分けかた</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Antique&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+
+<style>
+  :root {
+    --paper:   #F4F6FA;
+    --surface: #FFFFFF;
+    --ink:     #16213D;
+    --muted:   #5D6880;
+    --rule:    #D3DAE6;
+    --stamp:   #C0392B;
+    --stamp-bg:#FBEDEB;
+    --safe:    #2E7D5B;
+    --safe-bg: #E8F3ED;
+    --neutral-bg: #EDF0F6;
+
+    --display: "Zen Antique", "Yu Mincho", serif;
+    --body: "Noto Sans JP", system-ui, sans-serif;
+    --mono: "JetBrains Mono", "Consolas", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:   #10141E;
+      --surface: #171D2B;
+      --ink:     #E6EAF2;
+      --muted:   #8E99AF;
+      --rule:    #2C354A;
+      --stamp:   #F0705A;
+      --stamp-bg:#2E1B18;
+      --safe:    #55BC92;
+      --safe-bg: #14261F;
+      --neutral-bg: #1E2536;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:   #10141E;
+    --surface: #171D2B;
+    --ink:     #E6EAF2;
+    --muted:   #8E99AF;
+    --rule:    #2C354A;
+    --stamp:   #F0705A;
+    --stamp-bg:#2E1B18;
+    --safe:    #55BC92;
+    --safe-bg: #14261F;
+    --neutral-bg: #1E2536;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  /* ---- header ---- */
+  header { display: flex; flex-direction: column; gap: 14px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(30px, 6vw, 42px);
+    font-weight: 400;
+    line-height: 1.3;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .lede { font-size: 15px; color: var(--muted); margin: 0; max-width: 46ch; }
+
+  /* ---- sections ---- */
+  section { display: flex; flex-direction: column; gap: 16px; }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+    text-wrap: balance;
+  }
+
+  p { margin: 0; font-size: 15px; max-width: 60ch; }
+  .note { font-size: 13px; color: var(--muted); }
+  strong { font-weight: 700; }
+  .hl { color: var(--stamp); font-weight: 700; }
+
+  /* ---- figures ---- */
+  figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  figure svg { width: 100%; height: auto; display: block; overflow: visible; }
+  figcaption { font-size: 12px; color: var(--muted); text-align: center; }
+
+  svg text { font-family: var(--body); fill: currentColor; }
+  svg .mono { font-family: var(--mono); }
+  svg .lbl { font-size: 12px; fill: var(--muted); }
+  svg .cap { font-size: 13px; }
+  svg .big { font-size: 19px; }
+
+  /* ---- list excerpt ---- */
+  .excerpt {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
+  .excerpt-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .excerpt pre {
+    margin: 0;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .excerpt .ln {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    user-select: none;
+  }
+
+  .excerpt .hit {
+    display: inline-block;
+    background: var(--stamp-bg);
+    color: var(--stamp);
+    font-weight: 700;
+    padding: 0 6px;
+    border-radius: 3px;
+  }
+
+  /* ---- three systems ---- */
+  .systems { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; }
+  .sys { display: grid; grid-template-columns: minmax(0,1fr) 84px; gap: 14px; align-items: center; padding: 13px 16px; background: var(--surface); }
+  .sys-addr { font-family: var(--mono); font-size: 13px; word-break: break-all; }
+  .sys-note { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .verdict { font-family: var(--mono); font-size: 11px; font-weight: 700; text-align: center; padding: 4px 0; border-radius: 3px; letter-spacing: .04em; }
+  .v-dea { background: var(--stamp-bg); color: var(--stamp); }
+  .v-res { background: var(--neutral-bg); color: var(--muted); }
+  .v-real{ background: var(--safe-bg); color: var(--safe); }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 20px; font-size: 12px; color: var(--muted); }
+  footer a { color: inherit; }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">使い捨てメールアドレス</div>
+    <h1>捨てメールの見分けかた</h1>
+    <p class="lede">使い捨てのメールアドレスを、サイト側はどうやって見抜いているのか。実物のリストを開いて確かめる。</p>
+  </header>
+
+  <!-- 1 -->
+  <section>
+    <h2>メールアドレスは、2つに分かれている</h2>
+    <figure>
+      <svg viewBox="0 0 660 196" role="img" aria-label="メールアドレスはアットマークの左のローカル部と右のドメイン部に分かれ、判定に使われるのはドメイン部だけ">
+        <text x="445" y="16" class="lbl" text-anchor="middle" style="fill:var(--stamp)">サイトが見るのは、こっちだけ</text>
+        <line x1="445" y1="26" x2="445" y2="52" stroke="var(--stamp)" stroke-width="1.5" marker-end="url(#ar-stamp)"/>
+
+        <rect x="58" y="60" width="232" height="58" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="174" y="96" class="mono big" text-anchor="middle">sato.taro</text>
+
+        <text x="318" y="97" class="mono" style="font-size:22px" text-anchor="middle">@</text>
+
+        <rect x="346" y="60" width="232" height="58" rx="5" fill="var(--stamp-bg)" stroke="var(--stamp)" stroke-width="2"/>
+        <text x="462" y="96" class="mono big" text-anchor="middle" style="fill:var(--stamp)">kuku.lu</text>
+
+        <text x="174" y="146" class="cap" text-anchor="middle">ローカル部</text>
+        <text x="174" y="168" class="lbl" text-anchor="middle">誰でも好きに作れる</text>
+        <text x="462" y="146" class="cap" text-anchor="middle">ドメイン部</text>
+        <text x="462" y="168" class="lbl" text-anchor="middle">どの会社のメールか、が出る</text>
+
+        <defs>
+          <marker id="ar-stamp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,0 10,5 0,10" fill="var(--stamp)"/>
+          </marker>
+        </defs>
+      </svg>
+      <figcaption>左は自由に作れるので手がかりにならない。右だけが「どこのサービスか」を明かす。</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <h2>捨てメールは、30秒で作って捨てるアドレス</h2>
+    <figure>
+      <svg viewBox="0 0 660 164" role="img" aria-label="捨てメールはサイトを開くとアドレスが1個でき、使い終わると受信箱ごと消える">
+        <rect x="14" y="26" width="180" height="66" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="104" y="57" class="cap" text-anchor="middle">サイトを開く</text>
+        <text x="104" y="78" class="lbl" text-anchor="middle">登録もパスワードも不要</text>
+
+        <line x1="200" y1="59" x2="234" y2="59" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink)"/>
+
+        <rect x="240" y="26" width="180" height="66" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="330" y="57" class="cap" text-anchor="middle">アドレスが1個できる</text>
+        <text x="330" y="78" class="lbl mono" text-anchor="middle">x8f2a@kuku.lu</text>
+
+        <line x1="426" y1="59" x2="460" y2="59" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink)"/>
+
+        <rect x="466" y="26" width="180" height="66" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="556" y="57" class="cap" text-anchor="middle">受信箱ごと消える</text>
+        <text x="556" y="78" class="lbl" text-anchor="middle">履歴も残らない</text>
+
+        <text x="330" y="132" class="cap" text-anchor="middle">便利さの正体＝<tspan style="fill:var(--stamp);font-weight:700">誰が使ったか追えない</tspan></text>
+        <text x="330" y="152" class="lbl" text-anchor="middle">だから何百件でも申し込めてしまう。サイト側にとっては、これが困る</text>
+
+        <defs>
+          <marker id="ar-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,0 10,5 0,10" fill="currentColor"/>
+          </marker>
+        </defs>
+      </svg>
+      <figcaption>1人が何百人にも化けられる。抽選や先着のフォームでは、これが直接そのまま不正になる。</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <h2>サイト側の防御は、ただの名簿照合</h2>
+    <p>難しい技術は何も使っていない。<strong>ドメインを切り出して、リストに載っているか調べるだけ</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 660 330" role="img" aria-label="メールアドレスからドメインを切り出し、8742行のブロックリストと照合して、使い捨て・予約済み・実在の3つに分類する流れ">
+        <rect x="180" y="8" width="300" height="44" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="330" y="36" class="mono" style="font-size:14px" text-anchor="middle">sato.taro@kuku.lu</text>
+
+        <line x1="330" y1="52" x2="330" y2="84" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink2)"/>
+        <text x="345" y="73" class="lbl">@ で切る</text>
+
+        <rect x="255" y="88" width="150" height="42" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="330" y="115" class="mono" style="font-size:14px" text-anchor="middle">kuku.lu</text>
+
+        <line x1="330" y1="130" x2="330" y2="162" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink2)"/>
+        <text x="345" y="151" class="lbl">名簿と照合</text>
+
+        <rect x="170" y="166" width="320" height="52" rx="5" fill="var(--neutral-bg)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="330" y="189" class="cap" text-anchor="middle">ブロックリスト</text>
+        <text x="330" y="208" class="lbl mono" text-anchor="middle">8,742行 / 124 KB のテキストファイル</text>
+
+        <path d="M330 218 L330 240 L110 240 L110 262" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink2)"/>
+        <path d="M330 218 L330 262" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink2)"/>
+        <path d="M330 218 L330 240 L550 240 L550 262" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#ar-ink2)"/>
+
+        <rect x="20" y="266" width="180" height="56" rx="5" fill="var(--stamp-bg)" stroke="var(--stamp)" stroke-width="2"/>
+        <text x="110" y="290" class="mono" style="font-size:13px;font-weight:700;fill:var(--stamp)" text-anchor="middle">dea</text>
+        <text x="110" y="310" class="lbl" text-anchor="middle">載っていた＝使い捨て</text>
+
+        <rect x="240" y="266" width="180" height="56" rx="5" fill="var(--neutral-bg)" stroke="var(--rule)" stroke-width="1.5"/>
+        <text x="330" y="290" class="mono" style="font-size:13px;font-weight:700" text-anchor="middle">reserved</text>
+        <text x="330" y="310" class="lbl" text-anchor="middle">テスト用の架空ドメイン</text>
+
+        <rect x="460" y="266" width="180" height="56" rx="5" fill="var(--safe-bg)" stroke="var(--safe)" stroke-width="2"/>
+        <text x="550" y="290" class="mono" style="font-size:13px;font-weight:700;fill:var(--safe)" text-anchor="middle">real</text>
+        <text x="550" y="310" class="lbl" text-anchor="middle">実在するメール会社</text>
+
+        <defs>
+          <marker id="ar-ink2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,0 10,5 0,10" fill="currentColor"/>
+          </marker>
+        </defs>
+      </svg>
+      <figcaption>照合そのものは一瞬で終わる。8,742行あっても、検索の速さは1行のときと変わらない。</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <h2>その名簿の、実物</h2>
+    <p>誰でも無料で落とせる。中身は<strong>1行に1ドメインが並んでいるだけ</strong>のテキストファイルだった。</p>
+    <div class="excerpt">
+      <div class="excerpt-head">
+        <span>disposable_email_blocklist.conf</span>
+        <span>8,742 行</span>
+      </div>
+      <pre><span class="ln">4338</span>  ktpingprox.id.vn
+<span class="ln">4339</span>  kuhaku.indevs.in
+<span class="ln">4340</span>  kuhrap.com
+<span class="ln">4341</span>  <span class="hit">kuku.lu</span>
+<span class="ln">4342</span>  kulmeo.com
+<span class="ln">4343</span>  kulturbetrieb.info
+<span class="ln">4344</span>  kumli.racing</pre>
+    </div>
+    <p class="note">4341行目。日本でいちばん有名な捨てメールサービスが、アルファベット順に並んだ中に普通に載っている。<code class="mono">mailinator.com</code>・<code class="mono">10minutemail.com</code>・<code class="mono">yopmail.com</code> も同じファイルの中にあった。</p>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <h2>名簿に無くても、行き先で割れる</h2>
+    <p>新しいドメインを毎日作れば逃げられそうに見える。ところが<strong>メールの配達先を調べると、同じサーバに繋がる</strong>。</p>
+    <figure>
+      <svg viewBox="0 0 660 200" role="img" aria-label="リストに載っていない新しいドメインでも、MXレコードをたどると既知の捨てメールサーバに行き着くため芋づる式に判定できる">
+        <rect x="14" y="34" width="216" height="66" rx="5" fill="var(--surface)" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <text x="122" y="62" class="mono" style="font-size:13px" text-anchor="middle">temp-xyz-99.com</text>
+        <text x="122" y="84" class="lbl" text-anchor="middle">今日できた・リストに無い</text>
+
+        <line x1="236" y1="67" x2="424" y2="67" stroke="var(--stamp)" stroke-width="1.5" marker-end="url(#ar-stamp2)"/>
+        <text x="330" y="56" class="lbl" text-anchor="middle" style="fill:var(--stamp)">配達先を聞くと（MXレコード）</text>
+
+        <rect x="430" y="34" width="216" height="66" rx="5" fill="var(--stamp-bg)" stroke="var(--stamp)" stroke-width="2"/>
+        <text x="538" y="62" class="mono" style="font-size:13px;fill:var(--stamp)" text-anchor="middle">既知の捨てメールサーバ</text>
+        <text x="538" y="84" class="lbl" text-anchor="middle">もう名簿に載っている側</text>
+
+        <text x="330" y="146" class="cap" text-anchor="middle">名前を変えても、<tspan style="fill:var(--stamp);font-weight:700">荷物の届け先までは変えられない</tspan></text>
+        <text x="330" y="170" class="lbl" text-anchor="middle">だから新種のドメインも、まとめて同じ判定に落ちる</text>
+
+        <defs>
+          <marker id="ar-stamp2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,0 10,5 0,10" fill="var(--stamp)"/>
+          </marker>
+        </defs>
+      </svg>
+      <figcaption>名簿の照合が1段目、配達先の照合が2段目。2段目まで持つサイトは、新しいドメインにも追随できる。</figcaption>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <h2>見分けかたは、作る側にも効く</h2>
+    <p>メールアドレスは <strong>IPアドレスやブラウザの指紋と並ぶ、独立した手がかりの1本</strong>。フォームを運営する側に回ったとき、この3つをどう扱うかは自分で決められる。</p>
+    <div class="systems">
+      <div class="sys">
+        <div>
+          <div class="sys-addr">t00042@example.com</div>
+          <div class="sys-note">RFC 2606 の予約ドメイン。テスト用に確保されていて、世界のどこにも存在しない</div>
+        </div>
+        <div class="verdict v-res">reserved</div>
+      </div>
+      <div class="sys">
+        <div>
+          <div class="sys-addr">sato.taro@（自前ドメイン）</div>
+          <div class="sys-note">実在してメールも届く。ふつうの利用者</div>
+        </div>
+        <div class="verdict v-real">real</div>
+      </div>
+      <div class="sys">
+        <div>
+          <div class="sys-addr">x8f2a@kuku.lu</div>
+          <div class="sys-note">使い捨て。ここをどう扱うかが運営の方針になる</div>
+        </div>
+        <div class="verdict v-dea">dea</div>
+      </div>
+    </div>
+    <p class="note">3つに分けたあと、<strong>弾くのが常に正解とは限らない</strong>。宣伝メールを避けたいだけの人も使い捨てを使う。落とすか・警告を出すか・そのまま通すかは、フォームの目的しだい。</p>
+  </section>
+
+  <footer>
+    リストの出典＝<span class="mono">disposable-email-domains</span>（パブリックドメイン）。行数・バイト数・4341行目は 2026年9月8日（火）に実際にダウンロードして確認した実測値。<br>
+    このリストは広く使われている定番の1つだが、どのサイトがどのリストを使うかは公開されていない。<strong>「載っている」＝「必ず弾かれる」ではない</strong>。
+  </footer>
+
+</div>
